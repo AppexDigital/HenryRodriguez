@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Henry Rodríguez - Curador de Experiencias Extraordinarias</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Un combo más sofisticado y moderno -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Iconos (Feather Icons) -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* PALETA DE COLORES "ESENCIA DE COSTA RICA" (Mantenida) */
+        :root {
+            --bg-dark: #0C0B0C; /* Negro Tinta */
+            --bg-green-deep: #195A47; /* Verde Bosque */
+            --text-light: #F1EEEB; /* Blanco Hueso */
+            --text-dark: #0C0B0C;
+            --accent-lime: #A6E36A; /* Verde Lima */
+            --accent-red: #C40F3A; /* Rojo Pasión */
+            --neutral-stone: #D6CEC8; /* Gris Piedra */
+            --neutral-earth: #8A6A4E; /* Marrón Tierra */
+        }
+
+        /* MEJORAS GLOBALES Y DE LEGIBILIDAD */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-green-deep); /* Fondo base sólido */
+            color: var(--text-light); /* Texto claro por defecto */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden; /* Prevenir scroll horizontal */
+        }
+
+        .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* EFECTO DE FONDO GRADIENTE DINÁMICO (Mantenido y Optimizado) */
+        #dynamic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            transition: background-color 0.5s ease-out;
+        }
+
+        /* HEADER Y NAVEGACIÓN MEJORADOS */
+        #main-header {
+            background-color: rgba(12, 11, 12, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: background-color 0.3s ease-out, box-shadow 0.3s ease-out;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease-in-out;
+        }
+        #main-header.scrolled {
+            background-color: rgba(12, 11, 12, 0.6);
+            border-bottom: 1px solid rgba(241, 238, 235, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .nav-link, .lang-switcher, .logo-text {
+            color: var(--text-light);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .nav-link:hover {
+            color: var(--accent-lime);
+            transform: translateY(-2px);
+        }
+        .lang-switcher button.active {
+            color: var(--accent-red); /* AJUSTE: Color de acento a rojo */
+            font-weight: 700;
+        }
+
+        /* MENÚ MÓVIL */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .menu-open {
+            overflow: hidden;
+        }
+        .hamburger-icon .line {
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .menu-open .hamburger-icon .line-1 {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .menu-open .hamburger-icon .line-2 {
+            opacity: 0;
+        }
+        .menu-open .hamburger-icon .line-3 {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* HERO SECTION CON ANIMACIÓN SUTIL */
+        #hero-image {
+            animation: ken-burns 25s ease-in-out infinite alternate;
+        }
+        @keyframes ken-burns {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.1) translate(-2%, 2%); }
+        }
+
+        /* TARJETAS DE CONTENIDO PARA MÁXIMA LEGIBILIDAD */
+        .content-card {
+            background-color: rgba(12, 11, 12, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(241, 238, 235, 0.1);
+            border-radius: 1rem;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .content-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        /* ANIMACIONES DE SCROLL AVANZADAS */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* MEJORA DE CONTRASTE EN TEXTOS */
+        .text-section-body {
+            color: var(--neutral-stone);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        .text-section-body p {
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        .section-tag {
+            color: var(--accent-red); /* AJUSTE: Color de acento a rojo */
+            text-shadow: none;
+        }
+        .section-title {
+            color: var(--text-light);
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+        }
+
+        /* BOTONES DE CONTACTO MEJORADOS */
+        .contact-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .contact-button:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        /* FORMULARIO DE CONTACTO MODERNIZADO */
+        .form-input {
+            background-color: rgba(241, 238, 235, 0.1);
+            border: 1px solid rgba(241, 238, 235, 0.2);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+        .form-input::placeholder {
+            color: rgba(241, 238, 235, 0.5);
+        }
+        .form-input:focus {
+            background-color: rgba(241, 238, 235, 0.15);
+            border-color: var(--accent-lime);
+            box-shadow: 0 0 0 2px rgba(166, 227, 106, 0.3);
+            outline: none;
+        }
+
+    </style>
+</head>
+<body class="bg-bg-dark antialiased">
+
+    <!-- Fondo dinámico que cambia con el scroll -->
+    <div id="dynamic-background"></div>
+
+    <!-- ===== HEADER / NAVEGACIÓN ===== -->
+    <header id="main-header" class="fixed top-0 left-0 w-full z-50 py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <!-- Logo a la izquierda -->
+            <div class="flex-shrink-0">
+                <a href="#" class="font-serif text-3xl font-bold tracking-wider logo-text">HR</a>
+            </div>
+
+            <!-- Navegación centrada para escritorio -->
+            <nav class="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center space-x-8">
+                <a href="#filosofia" class="nav-link" data-key="nav_philosophy">Filosofía</a>
+                <a href="#liderazgo" class="nav-link" data-key="nav_leadership_section">Liderazgo</a>
+                <a href="#portafolio" class="nav-link" data-key="nav_experiences">Experiencias</a>
+                <a href="#contacto" class="nav-link" data-key="nav_contact">Contacto</a>
+            </nav>
+
+            <!-- Controles a la derecha (Idioma y Menú Móvil) -->
+            <div class="flex items-center space-x-4">
+                <div class="lang-switcher flex items-center space-x-2 text-sm">
+                    <button id="lang-es" class="active">ES</button>
+                    <span>/</span>
+                    <button id="lang-en">EN</button>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden z-50 hamburger-icon">
+                    <div class="space-y-2">
+                        <span class="block w-6 h-0.5 bg-white line line-1"></span>
+                        <span class="block w-6 h-0.5 bg-white line line-2"></span>
+                        <span class="block w-6 h-0.5 bg-white line line-3"></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menú de navegación móvil -->
+    <div id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-bg-dark/95 backdrop-blur-lg z-40 flex flex-col items-center justify-center space-y-8 text-2xl transform translate-x-full md:hidden">
+        <a href="#filosofia" class="nav-link mobile-nav-link" data-key="nav_philosophy">Filosofía</a>
+        <a href="#liderazgo" class="nav-link mobile-nav-link" data-key="nav_leadership_section">Liderazgo</a>
+        <a href="#portafolio" class="nav-link mobile-nav-link" data-key="nav_experiences">Experiencias</a>
+        <a href="#contacto" class="nav-link mobile-nav-link" data-key="nav_contact">Contacto</a>
+    </div>
+
+    <main>
+        <!-- ===== HERO SECTION ===== -->
+        <section id="inicio" class="relative min-h-screen flex items-center justify-center text-center overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent z-10"></div>
+            <img id="hero-image" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Impresionante paisaje de Costa Rica con montañas y agua, evocando lujo y naturaleza" class="absolute inset-0 w-full h-full object-cover">
+            
+            <div class="container mx-auto px-6 relative z-20">
+                <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl font-bold" style="text-shadow: 2px 2px 12px rgba(0,0,0,0.8);">Henry Rodríguez</h1>
+                <p class="mt-4 text-xl md:text-2xl max-w-4xl mx-auto font-light" style="text-shadow: 1px 1px 8px rgba(0,0,0,0.8);" data-key="hero_subtitle">
+                    Liderando equipos que diseñan lo extraordinario. Mi pasión es transformar el profundo conocimiento de Costa Rica en experiencias que marcan una vida.
+                </p>
+            </div>
+        </section>
+
+        <div class="relative z-10">
+            <!-- SECCIÓN FILOSOFÍA (SOBRE MÍ) -->
+            <section id="filosofia" class="py-24 md:py-32">
+                <div class="container mx-auto px-6">
+                    <div class="content-card p-8 md:p-12 lg:p-16 reveal-on-scroll">
+                        <div class="grid lg:grid-cols-5 gap-12 md:gap-16 items-center">
+                            <div class="lg:col-span-2">
+                                <div class="relative w-full max-w-sm mx-auto">
+                                    <div class="absolute inset-0 -m-4 bg-gradient-to-tr from-accent-red via-accent-lime to-bg-green-deep rounded-full opacity-20 blur-3xl"></div>
+                                    <img src="https://placehold.co/500x500/F1EEEB/0C0B0C?text=HR" 
+                                         alt="Avatar profesional de Henry Rodríguez" class="relative rounded-full w-full h-auto object-cover shadow-2xl">
+                                </div>
+                            </div>
+                            <div class="lg:col-span-3">
+                                <span class="section-tag text-sm font-semibold tracking-widest uppercase" data-key="philosophy_tag">MI FILOSOFÍA</span>
+                                <h2 class="section-title font-serif text-4xl md:text-5xl font-bold mt-4 mb-6" data-key="philosophy_title">El Liderazgo como un Acto Creativo</h2>
+                                <div class="space-y-6 text-section-body font-light">
+                                    <p data-key="philosophy_p1">
+                                        Mi visión del turismo trasciende la transacción. Para mí, cada itinerario es una narrativa, cada cliente un protagonista y cada destino un acto por descubrir. Mi carrera ha sido una búsqueda incesante de la perfección en este arte: la habilidad de tejer logística, emoción y exclusividad en un tapiz de momentos imborrables. No se trata de qué ver, sino de cómo sentir.
+                                    </p>
+                                    <p data-key="philosophy_p2">
+                                        Pero el verdadero epicentro de mi trabajo es el liderazgo. Creo firmemente que los equipos extraordinarios no se gestionan, se inspiran. Mi labor ha sido encender la chispa de la curiosidad en mis colaboradores, transformándolos de vendedores a curadores de experiencias. Fomento una cultura donde la atención al detalle es una religión y la creatividad, nuestra brújula.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN LIDERAZGO (EXPERIENCIA) -->
+            <section id="liderazgo" class="py-24 md:py-32">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16 reveal-on-scroll">
+                        <span class="section-tag text-sm font-semibold tracking-widest uppercase" data-key="leadership_tag">UNA CARRERA DEFINIDA POR EL IMPACTO</span>
+                        <h2 class="section-title font-serif text-4xl md:text-5xl font-bold mt-4" data-key="leadership_title">Liderazgo que Inspira. Resultados que Perduran.</h2>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Card 1 -->
+                        <div class="content-card p-8 reveal-on-scroll">
+                            <i data-feather="award" class="h-10 w-10 mb-4 text-accent-red"></i>
+                            <h3 class="font-serif text-2xl font-bold mb-3 text-white" data-key="job1_title">Director de Ventas Receptivas</h3>
+                            <p class="font-semibold text-neutral-stone mb-3">Terranova Diseño de Viajes | 2009 - 2024</p>
+                            <p class="font-light text-neutral-stone" data-key="job1_desc">Dirigí y mentoricé a un equipo de 12 asesores de élite, logrando un crecimiento sostenido del 200% y posicionando a la empresa como el referente de lujo en Costa Rica.</p>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="content-card p-8 reveal-on-scroll" style="transition-delay: 200ms;">
+                            <i data-feather="feather" class="h-10 w-10 mb-4 text-accent-red"></i>
+                            <h3 class="font-serif text-2xl font-bold mb-3 text-white" data-key="job2_title">Curador de Experiencias de Lujo</h3>
+                            <p class="font-semibold text-neutral-stone mb-3">Alma Verde Collective</p>
+                            <p class="font-light text-neutral-stone" data-key="job2_desc">Conceptualicé una cartera de experiencias "ultra-luxe" enfocadas en la sostenibilidad, autenticidad cultural y personalización extrema para una clientela de alto perfil.</p>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="content-card p-8 reveal-on-scroll" style="transition-delay: 400ms;">
+                            <i data-feather="compass" class="h-10 w-10 mb-4 text-accent-red"></i>
+                            <h3 class="font-serif text-2xl font-bold mb-3 text-white" data-key="job3_title">Estratega de Desarrollo de Mercado</h3>
+                            <p class="font-semibold text-neutral-stone mb-3">Pura Vida Ventures</p>
+                            <p class="font-light text-neutral-stone" data-key="job3_desc">Lideré la expansión hacia nuevos mercados, desarrollando alianzas estratégicas con agencias de lujo en Norteamérica y Europa, adaptando el producto para un viajero más exigente.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        
+            <!-- SECCIÓN LIDERAZGO EN ACCIÓN -->
+            <section id="liderazgo-accion" class="py-24 md:py-32">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16 reveal-on-scroll">
+                        <span class="section-tag text-sm font-semibold tracking-widest uppercase" data-key="leadership_action_tag">LIDERAZGO EN ACCIÓN</span>
+                        <h2 class="section-title font-serif text-4xl md:text-5xl font-bold mt-4" data-key="leadership_action_title">Más Allá de la Gestión: Una Cultura de Excelencia</h2>
+                    </div>
+                    <div class="space-y-24">
+                        <!-- Item 1 -->
+                        <div class="grid lg:grid-cols-2 gap-12 items-center reveal-on-scroll">
+                            <div class="order-2 lg:order-1">
+                                <h3 class="font-serif text-4xl font-bold mb-4 text-white" data-key="action1_title">Forjando Equipos de Élite</h3>
+                                <p class="text-section-body font-light" data-key="action1_desc">Mi metodología se basa en potenciar el talento individual. A través de mentoría y un entorno de confianza, transformo a los asesores en estrategas de viajes, capaces de anticipar necesidades y superar cualquier expectativa.</p>
+                            </div>
+                            <div class="order-1 lg:order-2">
+                                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2190&auto=format&fit=crop" 
+                                     alt="Equipo profesional y diverso colaborando en una oficina moderna" class="rounded-lg shadow-2xl w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500">
+                            </div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="grid lg:grid-cols-2 gap-12 items-center reveal-on-scroll">
+                            <div>
+                                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop" 
+                                     alt="Sesión de brainstorming con notas adhesivas en una pared de cristal" class="rounded-lg shadow-2xl w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div>
+                                <h3 class="font-serif text-4xl font-bold mb-4 text-white" data-key="action2_title">Cultura de Creatividad e Innovación</h3>
+                                <p class="text-section-body font-light" data-key="action2_desc">Fomento un laboratorio de ideas donde el "qué pasaría si" es la pregunta fundamental. Impulso a mi equipo a salir de la zona de confort, a explorar alianzas no convencionales y a diseñar productos que creen tendencias.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN PORTAFOLIO DE EXPERIENCIAS -->
+            <section id="portafolio" class="py-24 md:py-32">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16 reveal-on-scroll">
+                        <span class="section-tag text-sm font-semibold tracking-widest uppercase" data-key="portfolio_tag">EL ARTE DE LA CREACIÓN</span>
+                        <h2 class="section-title font-serif text-4xl md:text-5xl font-bold mt-4" data-key="portfolio_title">Experiencias Insignia</h2>
+                    </div>
+                    <div class="space-y-24">
+                        <!-- Experiencia 1 -->
+                        <div class="grid lg:grid-cols-2 gap-12 items-center reveal-on-scroll">
+                            <div class="order-2 lg:order-1">
+                                <h3 class="font-serif text-4xl font-bold mb-4 text-white" data-key="exp1_title">Sinfonía Silvestre</h3>
+                                <p class="text-section-body font-light" data-key="exp1_desc">Una inmersión total en la opulencia de la naturaleza. Orquesto travesías en helicóptero a cataratas ocultas, seguidas de cenas privadas bajo las estrellas, preparadas por un chef personal en el corazón de la selva. No es aventura; es poesía en movimiento.</p>
+                            </div>
+                            <div class="order-1 lg:order-2">
+                                <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop" 
+                                     alt="Aventura de lujo en la naturaleza de Costa Rica" class="rounded-lg shadow-2xl w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500">
+                            </div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="grid lg:grid-cols-2 gap-12 items-center reveal-on-scroll">
+                            <div>
+                                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2120&auto=format&fit=crop" 
+                                     alt="Mujer practicando yoga en un entorno sereno de Costa Rica" class="rounded-lg shadow-2xl w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div>
+                                <h3 class="font-serif text-4xl font-bold mb-4 text-white" data-key="exp2_title">Santuarios del Alma</h3>
+                                <p class="text-section-body font-light" data-key="exp2_desc">Concibo retiros de bienestar que son un regreso a uno mismo. Sesiones de yoga al alba frente a la majestuosidad de un volcán, ceremonias de cacao y gastronomía détox. Cada elemento está meticulosamente seleccionado para la renovación profunda.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN CONTACTO -->
+            <section id="contacto" class="py-24 md:py-32">
+                <div class="container mx-auto px-6 max-w-4xl">
+                    <div class="content-card p-8 md:p-12 lg:p-16 reveal-on-scroll">
+                        <div class="text-center">
+                            <span class="section-tag text-sm font-semibold tracking-widest uppercase" data-key="contact_tag">EL INICIO DE ALGO GRANDE</span>
+                            <h2 class="section-title font-serif text-4xl md:text-5xl font-bold mt-4 mb-6" data-key="contact_title">Una Invitación a la Colaboración</h2>
+                            <p class="text-section-body font-light mb-10" data-key="contact_p1">
+                                La excelencia nace de la sinergia. Si su visión resuena con un enfoque basado en la creatividad y el liderazgo, nuestro camino debe cruzarse. Estoy abierto a explorar colaboraciones, proyectos de consultoría o roles estratégicos donde mi experiencia pueda catalizar un crecimiento extraordinario.
+                            </p>
+                        </div>
+                        
+                        <div class="grid sm:grid-cols-2 gap-6 items-center mt-12">
+                            <a href="https://wa.me/50600000000" target="_blank" class="contact-button flex items-center justify-center gap-3 bg-green-600 text-white font-bold py-4 px-6 rounded-lg text-lg hover:bg-green-700">
+                                <i data-feather="message-circle" class="h-6 w-6"></i>
+                                <span data-key="contact_whatsapp">Conversar por WhatsApp</span>
+                            </a>
+                            <a href="mailto:henry.rodriguez.vision@email.com" class="contact-button flex items-center justify-center gap-3 bg-neutral-stone text-bg-dark font-bold py-4 px-6 rounded-lg text-lg hover:bg-white">
+                                <i data-feather="mail" class="h-6 w-6"></i>
+                                <span data-key="contact_email">Enviar un Correo</span>
+                            </a>
+                        </div>
+
+                        <div class="text-center mt-16">
+                            <p class="text-neutral-stone" data-key="contact_form_intro">O si prefiere, complete el siguiente formulario:</p>
+                            <form id="contact-form" action="https://formspree.io/f/your_unique_code" method="POST" class="mt-8 space-y-6 text-left">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="name" class="hidden" data-key="form_name">Nombre</label>
+                                        <input type="text" id="name" name="name" required class="form-input mt-1 block w-full rounded-md py-3 px-4" placeholder="Nombre">
+                                    </div>
+                                    <div>
+                                        <label for="email" class="hidden" data-key="form_email">Correo</label>
+                                        <input type="email" id="email" name="email" required class="form-input mt-1 block w-full rounded-md py-3 px-4" placeholder="Correo Electrónico">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="subject" class="hidden" data-key="form_subject">Asunto</label>
+                                    <input type="text" id="subject" name="subject" required class="form-input mt-1 block w-full rounded-md py-3 px-4" placeholder="Asunto">
+                                </div>
+                                <div>
+                                    <label for="message" class="hidden" data-key="form_message">Mensaje</label>
+                                    <textarea id="message" name="message" rows="4" required class="form-input mt-1 block w-full rounded-md py-3 px-4" placeholder="Su mensaje..."></textarea>
+                                </div>
+                                <div class="text-center pt-4">
+                                    <button type="submit" class="contact-button bg-accent-red text-white font-bold py-3 px-12 rounded-lg text-lg hover:bg-red-700" data-key="form_button">
+                                        Enviar Mensaje
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="py-16 bg-bg-dark">
+        <div class="container mx-auto px-6 text-center text-neutral-stone">
+            <p class="font-serif text-2xl text-white mb-6" data-key="footer_connect">Conectemos</p>
+            <div class="flex justify-center space-x-6 mb-8">
+                <a href="#" target="_blank" class="text-neutral-stone hover:text-white transition-colors duration-300"><i data-feather="linkedin" class="h-7 w-7"></i></a>
+                <a href="#" target="_blank" class="text-neutral-stone hover:text-white transition-colors duration-300"><i data-feather="instagram" class="h-7 w-7"></i></a>
+                <a href="#" target="_blank" class="text-neutral-stone hover:text-white transition-colors duration-300"><i data-feather="twitter" class="h-7 w-7"></i></a>
+            </div>
+            <p class="font-light text-sm" data-key="footer_text">&copy; 2025 Henry Rodríguez. Diseñado por Appex Arquitecto Digital.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            feather.replace();
+
+            const header = document.getElementById('main-header');
+            const dynamicBg = document.getElementById('dynamic-background');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+            // Lógica del menú móvil
+            const toggleMenu = () => {
+                const isOpen = !mobileMenu.classList.contains('translate-x-full');
+                mobileMenu.classList.toggle('translate-x-full');
+                document.body.classList.toggle('menu-open');
+            };
+
+            mobileMenuButton.addEventListener('click', toggleMenu);
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+
+            // Lógica de scroll
+            const handleScroll = () => {
+                const scrollY = window.scrollY;
+                const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollFraction = pageHeight > 0 ? scrollY / pageHeight : 0;
+
+                // Estilo del header al hacer scroll
+                if (scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+
+                // Lógica del fondo dinámico (Mantenida)
+                const colorStops = [
+                    { stop: 0,    color: [25, 90, 71] },   // #195a47 (Verde Bosque)
+                    { stop: 0.25, color: [166, 227, 106] }, // #a6e36a (Verde Lima)
+                    { stop: 0.5,  color: [138, 106, 78] },  // #8a6a4e (Marrón Tierra)
+                    { stop: 0.75, color: [214, 206, 200] }, // #d6cec8 (Gris Piedra)
+                    { stop: 1,    color: [12, 11, 12] }     // #0c0b0c (Negro Tinta)
+                ];
+
+                let startColor, endColor, localFraction;
+                for (let i = 0; i < colorStops.length - 1; i++) {
+                    if (scrollFraction >= colorStops[i].stop && scrollFraction <= colorStops[i + 1].stop) {
+                        startColor = colorStops[i].color;
+                        endColor = colorStops[i + 1].color;
+                        localFraction = (scrollFraction - colorStops[i].stop) / (colorStops[i + 1].stop - colorStops[i].stop);
+                        break;
+                    }
+                }
+                
+                if (startColor && endColor) {
+                    const r = Math.round(startColor[0] + (endColor[0] - startColor[0]) * localFraction);
+                    const g = Math.round(startColor[1] + (endColor[1] - startColor[1]) * localFraction);
+                    const b = Math.round(startColor[2] + (endColor[2] - startColor[2]) * localFraction);
+                    dynamicBg.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+                }
+            };
+            
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            handleScroll(); // Ejecutar al cargar
+
+            // Lógica de revelado de elementos al hacer scroll
+            const scrollObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                scrollObserver.observe(el);
+            });
+
+            // Lógica de traducción (Mantenida y Actualizada)
+            const translations = {
+                es: { 
+                    nav_philosophy: 'Filosofía', nav_leadership_section: 'Liderazgo', nav_experiences: 'Experiencias', nav_contact: 'Contacto', nav_talk: 'Hablemos',
+                    hero_subtitle: 'Liderando equipos que diseñan lo extraordinario. Mi pasión es transformar el profundo conocimiento de Costa Rica en experiencias que marcan una vida.',
+                    philosophy_tag: 'MI FILOSOFÍA', philosophy_title: 'El Liderazgo como un Acto Creativo', 
+                    philosophy_p1: 'Mi visión del turismo trasciende la transacción. Para mí, cada itinerario es una narrativa, cada cliente un protagonista y cada destino un acto por descubrir. Mi carrera ha sido una búsqueda incesante de la perfección en este arte: la habilidad de tejer logística, emoción y exclusividad en un tapiz de momentos imborrables. No se trata de qué ver, sino de cómo sentir.', 
+                    philosophy_p2: 'Pero el verdadero epicentro de mi trabajo es el liderazgo. Creo firmemente que los equipos extraordinarios no se gestionan, se inspiran. Mi labor ha sido encender la chispa de la curiosidad en mis colaboradores, transformándolos de vendedores a curadores de experiencias. Fomento una cultura donde la atención al detalle es una religión y la creatividad, nuestra brújula.', 
+                    leadership_tag: 'UNA CARRERA DEFINIDA POR EL IMPACTO', leadership_title: 'Liderazgo que Inspira. Resultados que Perduran.',
+                    job1_title: 'Director de Ventas Receptivas', job1_desc: 'Dirigí y mentoricé a un equipo de 12 asesores de élite, logrando un crecimiento sostenido del 200% y posicionando a la empresa como el referente de lujo en Costa Rica.', 
+                    job2_title: 'Curador de Experiencias de Lujo', job2_desc: 'Conceptualicé una cartera de experiencias "ultra-luxe" enfocadas en la sostenibilidad, autenticidad cultural y personalización extrema para una clientela de alto perfil.', 
+                    job3_title: 'Estratega de Desarrollo de Mercado', job3_desc: 'Lideré la expansión hacia nuevos mercados, desarrollando alianzas estratégicas con agencias de lujo en Norteamérica y Europa, adaptando el producto para un viajero más exigente.', 
+                    leadership_action_tag: 'LIDERAZGO EN ACCIÓN', leadership_action_title: 'Más Allá de la Gestión: Una Cultura de Excelencia', 
+                    action1_title: 'Forjando Equipos de Élite', action1_desc: 'Mi metodología se basa en potenciar el talento individual. A través de mentoría y un entorno de confianza, transformo a los asesores en estrategas de viajes, capaces de anticipar necesidades y superar cualquier expectativa.', 
+                    action2_title: 'Cultura de Creatividad e Innovación', action2_desc: 'Fomento un laboratorio de ideas donde el "qué pasaría si" es la pregunta fundamental. Impulso a mi equipo a salir de la zona de confort, a explorar alianzas no convencionales y a diseñar productos que creen tendencias.', 
+                    portfolio_tag: 'EL ARTE DE LA CREACIÓN', portfolio_title: 'Experiencias Insignia', 
+                    exp1_title: 'Sinfonía Silvestre', exp1_desc: 'Una inmersión total en la opulencia de la naturaleza. Orquesto travesías en helicóptero a cataratas ocultas, seguidas de cenas privadas bajo las estrellas, preparadas por un chef personal en el corazón de la selva. No es aventura; es poesía en movimiento.', 
+                    exp2_title: 'Santuarios del Alma', exp2_desc: 'Concibo retiros de bienestar que son un regreso a uno mismo. Sesiones de yoga al alba frente a la majestuosidad de un volcán, ceremonias de cacao y gastronomía détox. Cada elemento está meticulosamente seleccionado para la renovación profunda.', 
+                    contact_tag: 'EL INICIO DE ALGO GRANDE', contact_title: 'Una Invitación a la Colaboración', 
+                    contact_p1: 'La excelencia nace de la sinergia. Si su visión resuena con un enfoque basado en la creatividad y el liderazgo, nuestro camino debe cruzarse. Estoy abierto a explorar colaboraciones, proyectos de consultoría o roles estratégicos donde mi experiencia pueda catalizar un crecimiento extraordinario.', 
+                    contact_whatsapp: 'Conversar por WhatsApp', contact_email: 'Enviar un Correo', 
+                    contact_form_intro: 'O si prefiere, complete el siguiente formulario:', 
+                    form_name: 'Nombre', form_email: 'Correo Electrónico', form_subject: 'Asunto', form_message: 'Mensaje', form_button: 'Enviar Mensaje', 
+                    footer_connect: 'Conectemos', footer_text: '&copy; 2025 Henry Rodríguez. Diseñado por Appex Arquitecto Digital.'
+                },
+                en: {
+                    nav_philosophy: 'Philosophy', nav_leadership_section: 'Leadership', nav_experiences: 'Experiences', nav_contact: 'Contact', nav_talk: 'Let\'s Talk',
+                    hero_subtitle: 'Leading teams that design the extraordinary. My passion is to transform a deep knowledge of Costa Rica into life-changing experiences.',
+                    philosophy_tag: 'MY PHILOSOPHY', philosophy_title: 'Leadership as a Creative Act',
+                    philosophy_p1: 'My vision of tourism transcends transactions. For me, every itinerary is a narrative, every client a protagonist, and every destination an act to be discovered. My career has been a relentless pursuit of perfection in this art: the ability to weave logistics, emotion, and exclusivity into a tapestry of unforgettable moments. It\'s not about what to see, but how to feel.',
+                    philosophy_p2: 'But the true epicenter of my work is leadership. I firmly believe that extraordinary teams are not managed; they are inspired. My job has been to ignite the spark of curiosity in my collaborators, transforming them from salespeople to experience curators. I foster a culture where attention to detail is a religion and creativity, our compass.',
+                    leadership_tag: 'A CAREER DEFINED BY IMPACT', leadership_title: 'Leadership that Inspires. Results that Endure.',
+                    job1_title: 'Inbound Sales Director', job1_desc: 'I led and mentored a team of 12 elite advisors, achieving sustained growth of 200% and positioning the company as the benchmark for luxury in Costa Rica.',
+                    job2_title: 'Luxury Experience Curator', job2_desc: 'I conceptualized a portfolio of "ultra-luxe" experiences focused on sustainability, cultural authenticity, and extreme personalization for a high-profile clientele.',
+                    job3_title: 'Market Development Strategist', job3_desc: 'I led the expansion into new markets, developing strategic alliances with luxury agencies in North America and Europe, adapting the product for a more demanding traveler.',
+                    leadership_action_tag: 'LEADERSHIP IN ACTION', leadership_action_title: 'Beyond Management: A Culture of Excellence',
+                    action1_title: 'Forging Elite Teams', action1_desc: 'My methodology is based on empowering individual talent. Through mentoring and a trusting environment, I transform advisors into travel strategists, capable of anticipating needs and exceeding any expectation.',
+                    action2_title: 'Culture of Creativity & Innovation', action2_desc: 'I foster an ideas lab where "what if" is the fundamental question. I push my team to step out of their comfort zone, explore unconventional alliances, and design products that create trends.',
+                    portfolio_tag: 'THE ART OF CREATION', portfolio_title: 'Signature Experiences',
+                    exp1_title: 'Wild Symphony', exp1_desc: 'A total immersion in the opulence of nature. I orchestrate helicopter journeys to hidden waterfalls, followed by private dinners under the stars, prepared by a personal chef in the heart of the jungle. This is not adventure; it is poetry in motion.',
+                    exp2_title: 'Sanctuaries of the Soul', exp2_desc: 'I design wellness retreats that are a return to oneself. Sunrise yoga sessions facing a majestic volcano, cacao ceremonies, and detox gastronomy. Every element is meticulously selected for deep renewal.',
+                    contact_tag: 'THE START OF SOMETHING GREAT', contact_title: 'An Invitation to Collaborate',
+                    contact_p1: 'Excellence is born from synergy. If your vision resonates with an approach based on creativity and leadership, our paths must cross. I am open to exploring collaborations, consulting projects, or strategic roles where my experience can catalyze extraordinary growth.',
+                    contact_whatsapp: 'Chat on WhatsApp', contact_email: 'Send an Email',
+                    contact_form_intro: 'Or, if you prefer, please fill out the form below:',
+                    form_name: 'Name', form_email: 'Email Address', form_subject: 'Subject', form_message: 'Message', form_button: 'Send Message',
+                    footer_connect: 'Let\'s Connect', footer_text: '&copy; 2025 Henry Rodríguez. Designed by Appex Digital Architect.'
+                }
+            };
+
+            const langEsBtn = document.getElementById('lang-es');
+            const langEnBtn = document.getElementById('lang-en');
+            
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                document.querySelectorAll('[data-key]').forEach(el => {
+                    const key = el.getAttribute('data-key');
+                    if (translations[lang] && translations[lang][key]) {
+                        el.innerHTML = translations[lang][key];
+                    }
+                });
+                langEsBtn.classList.toggle('active', lang === 'es');
+                langEnBtn.classList.toggle('active', lang === 'en');
+                
+                // Actualizar placeholders del formulario
+                document.querySelector('#name').placeholder = lang === 'es' ? 'Nombre' : 'Name';
+                document.querySelector('#email').placeholder = lang === 'es' ? 'Correo Electrónico' : 'Email Address';
+                document.querySelector('#subject').placeholder = lang === 'es' ? 'Asunto' : 'Subject';
+                document.querySelector('#message').placeholder = lang === 'es' ? 'Su mensaje...' : 'Your message...';
+            };
+
+            langEsBtn.addEventListener('click', () => setLanguage('es'));
+            langEnBtn.addEventListener('click', () => setLanguage('en'));
+            
+            // Establecer idioma inicial
+            setLanguage('es'); 
+        });
+    </script>
+</body>
+</html>
