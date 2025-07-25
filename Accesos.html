@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Digital - Henry Rodríguez</title>
+    
+    <!-- FAVICON PERSONALIZADO (Tomado de tu diseño) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230C0B0C'/><text x='50' y='50' dy='.3em' font-size='50' font-family='serif' fill='%23F1EEEB' text-anchor='middle'>HR</text></svg>">
+
+    <!-- Google Fonts: Cormorant Garamond & Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Iconos (Feather Icons) -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /*
+         * PALETA DE COLORES "ESENCIA DE COSTA RICA"
+         * Extraída de tu diseño para consistencia de marca.
+        */
+        :root {
+            --bg-dark: #0C0B0C; /* Negro Tinta */
+            --text-light: #F1EEEB; /* Blanco Hueso */
+            --text-secondary: #D6CEC8; /* Gris Piedra */
+            --accent-lime: #A6E36A; /* Verde Lima */
+            --accent-red: #C40F3A; /* Rojo Pasión */
+            --link-bg: rgba(241, 238, 235, 0.05); /* Fondo de enlace sutil */
+            --link-border: rgba(241, 238, 235, 0.1); /* Borde de enlace sutil */
+        }
+
+        html {
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem 1rem;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* --- Cabecera --- */
+        .header {
+            margin-bottom: 2.5rem;
+        }
+
+        .profile-picture {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-lime);
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(166, 227, 106, 0.1);
+        }
+
+        .profile-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--text-light);
+            letter-spacing: 1px;
+        }
+
+        .profile-title {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* --- Enlaces --- */
+        .links-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .link-button {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background-color: var(--link-bg);
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 0.75rem;
+            border: 1px solid var(--link-border);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .link-button:hover {
+            transform: translateY(-4px);
+            background-color: rgba(166, 227, 106, 0.1);
+            border-color: var(--accent-lime);
+            color: var(--accent-lime);
+        }
+
+        .link-button .link-icon {
+            margin-right: 1rem;
+        }
+        
+        /* Botón principal (WhatsApp) destacado con el rojo pasión */
+        .link-button.primary {
+            background-color: var(--accent-red);
+            color: var(--text-light);
+            border-color: transparent;
+            font-weight: 600;
+        }
+        .link-button.primary:hover {
+            background-color: var(--accent-red);
+            color: var(--text-light);
+            filter: brightness(1.2);
+            box-shadow: 0 8px 25px rgba(196, 15, 58, 0.3);
+        }
+        
+        /* --- Código QR --- */
+        .qr-section {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: var(--link-bg);
+            border-radius: 1rem;
+            border: 1px solid var(--link-border);
+        }
+        
+        .qr-section h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .qr-code {
+            border-radius: 0.5rem;
+            border: 2px solid var(--text-light);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        .footer a {
+            color: var(--accent-lime);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- ================================== -->
+        <!-- =====   INICIO PERSONALIZACIÓN   ===== -->
+        <!-- ================================== -->
+        
+        <header class="header">
+            <!-- CAMBIAR: URL de la imagen de perfil -->
+            <img src="https://placehold.co/260x260/0C0B0C/F1EEEB?text=HR" alt="Avatar profesional de Henry Rodríguez" class="profile-picture" onerror="this.onerror=null;this.src='https://placehold.co/130x130/0C0B0C/F1EEEB?text=HR';">
+            
+            <h1 class="profile-name">Henry Rodríguez</h1>
+            <p class="profile-title">Curador de Experiencias</p>
+        </header>
+
+        <main>
+            <ul class="links-list">
+                <li>
+                    <!-- CAMBIAR: URL de WhatsApp -->
+                    <a href="https://wa.me/506XXXXXXXX" target="_blank" class="link-button primary">
+                        <i data-feather="message-circle" class="link-icon"></i>
+                        <span>Conversar por WhatsApp</span>
+                    </a>
+                </li>
+                <li>
+                    <!-- CAMBIAR: URL de LinkedIn -->
+                    <a href="#" target="_blank" class="link-button">
+                        <i data-feather="linkedin" class="link-icon"></i>
+                        <span>Perfil Profesional en LinkedIn</span>
+                    </a>
+                </li>
+                <li>
+                    <!-- CAMBIAR: URL de Correo Electrónico -->
+                    <a href="mailto:email@ejemplo.com" class="link-button">
+                        <i data-feather="mail" class="link-icon"></i>
+                        <span>Enviar un Correo Electrónico</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="qr-section">
+                <h3>Visita mi Portafolio Web</h3>
+                <!-- El QR se genera automáticamente con la URL proporcionada -->
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://appexdigital.github.io/HenryRodriguez/&bgcolor=0C0B0C&color=F1EEEB&qzone=1" 
+                     alt="Código QR al portafolio de Henry Rodríguez"
+                     class="qr-code">
+            </div>
+        </main>
+
+        <!-- ================================== -->
+        <!-- ======   FIN PERSONALIZACIÓN   ====== -->
+        <!-- ================================== -->
+
+        <footer class="footer">
+            <p>Diseño por <a href="https://appexdigital.github.io/HenryRodriguez/" target="_blank">Appex Arquitecto Digital</a></p>
+        </footer>
+        
+    </div>
+
+    <script>
+        // Activa los íconos de Feather
+        feather.replace();
+    </script>
+</body>
+</html>
