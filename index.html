@@ -43,7 +43,7 @@
         /* MEJORAS GLOBALES Y DE LEGIBILIDAD */
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-green-deep); /* Fondo base sólido */
+            background-color: var(--bg-dark); /* Fondo base sólido */
             color: var(--text-light); /* Texto claro por defecto */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -62,7 +62,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            transition: background-color 0.5s ease-out;
+            transition: background-color 0.5s ease-out, opacity 0.5s ease-out;
         }
 
         /* HEADER Y NAVEGACIÓN MEJORADOS */
@@ -79,17 +79,17 @@
             border-bottom: 1px solid rgba(241, 238, 235, 0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
-        .nav-link, .lang-switcher, .logo-text {
+        .nav-link, .lang-switcher, .logo-text, #theme-toggle-button {
             color: var(--text-light);
             text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
             transition: color 0.3s ease, transform 0.3s ease;
         }
-        .nav-link:hover {
+        .nav-link:hover, #theme-toggle-button:hover {
             color: var(--accent-lime);
             transform: translateY(-2px);
         }
         .lang-switcher button.active {
-            color: var(--accent-red); /* AJUSTE: Color de acento a rojo */
+            color: var(--accent-red);
             font-weight: 700;
         }
 
@@ -129,7 +129,7 @@
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(241, 238, 235, 0.1);
             border-radius: 1rem;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
         }
         .content-card:hover {
             transform: translateY(-8px);
@@ -157,7 +157,7 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
         .section-tag {
-            color: var(--accent-red); /* AJUSTE: Color de acento a rojo */
+            color: var(--accent-red);
             text-shadow: none;
         }
         .section-title {
@@ -191,6 +191,24 @@
             box-shadow: 0 0 0 2px rgba(166, 227, 106, 0.3);
             outline: none;
         }
+        
+        /* MODO PRESENTACIÓN / DIAPOSITIVAS */
+        .slide-mode #dynamic-background {
+            opacity: 0;
+        }
+        main > section {
+            transition: background-color 0.6s ease-in-out;
+        }
+        .slide-mode #filosofia { background-color: var(--bg-green-deep); }
+        .slide-mode #liderazgo { background-color: var(--bg-dark); }
+        .slide-mode #liderazgo-accion { background-color: var(--neutral-earth); }
+        .slide-mode #portafolio { background-color: var(--bg-green-deep); }
+        .slide-mode #contacto { background-color: var(--bg-dark); }
+        
+        .slide-mode .content-card {
+            background-color: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
 
     </style>
 </head>
@@ -217,6 +235,9 @@
 
             <!-- Controles a la derecha (Idioma y Menú Móvil) -->
             <div class="flex items-center space-x-4">
+                <button id="theme-toggle-button" title="Cambiar modo de visualización">
+                    <i data-feather="layout"></i>
+                </button>
                 <div class="lang-switcher flex items-center space-x-2 text-sm">
                     <button id="lang-es" class="active">ES</button>
                     <span>/</span>
@@ -462,17 +483,18 @@
         document.addEventListener('DOMContentLoaded', function () {
             feather.replace();
 
+            const body = document.body;
             const header = document.getElementById('main-header');
             const dynamicBg = document.getElementById('dynamic-background');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            const themeToggleButton = document.getElementById('theme-toggle-button');
 
             // Lógica del menú móvil
             const toggleMenu = () => {
-                const isOpen = !mobileMenu.classList.contains('translate-x-full');
                 mobileMenu.classList.toggle('translate-x-full');
-                document.body.classList.toggle('menu-open');
+                body.classList.toggle('menu-open');
             };
 
             mobileMenuButton.addEventListener('click', toggleMenu);
@@ -480,12 +502,15 @@
                 link.addEventListener('click', toggleMenu);
             });
 
+            // Lógica del cambio de tema (Fondo dinámico vs. Diapositivas)
+            themeToggleButton.addEventListener('click', () => {
+                body.classList.toggle('slide-mode');
+            });
+
             // Lógica de scroll
             const handleScroll = () => {
                 const scrollY = window.scrollY;
-                const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const scrollFraction = pageHeight > 0 ? scrollY / pageHeight : 0;
-
+                
                 // Estilo del header al hacer scroll
                 if (scrollY > 50) {
                     header.classList.add('scrolled');
@@ -493,13 +518,20 @@
                     header.classList.remove('scrolled');
                 }
 
-                // Lógica del fondo dinámico (Mantenida)
+                // Lógica del fondo dinámico (se desactiva con la clase 'slide-mode')
+                if (body.classList.contains('slide-mode')) {
+                    return;
+                }
+
+                const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollFraction = pageHeight > 0 ? scrollY / pageHeight : 0;
+                
                 const colorStops = [
-                    { stop: 0,    color: [25, 90, 71] },   // #195a47 (Verde Bosque)
-                    { stop: 0.25, color: [166, 227, 106] }, // #a6e36a (Verde Lima)
-                    { stop: 0.5,  color: [138, 106, 78] },  // #8a6a4e (Marrón Tierra)
-                    { stop: 0.75, color: [214, 206, 200] }, // #d6cec8 (Gris Piedra)
-                    { stop: 1,    color: [12, 11, 12] }     // #0c0b0c (Negro Tinta)
+                    { stop: 0,    color: [25, 90, 71] },
+                    { stop: 0.25, color: [166, 227, 106] },
+                    { stop: 0.5,  color: [138, 106, 78] },
+                    { stop: 0.75, color: [214, 206, 200] },
+                    { stop: 1,    color: [12, 11, 12] }
                 ];
 
                 let startColor, endColor, localFraction;
@@ -521,7 +553,7 @@
             };
             
             window.addEventListener('scroll', handleScroll, { passive: true });
-            handleScroll(); // Ejecutar al cargar
+            handleScroll();
 
             // Lógica de revelado de elementos al hacer scroll
             const scrollObserver = new IntersectionObserver((entries, observer) => {
@@ -537,10 +569,10 @@
                 scrollObserver.observe(el);
             });
 
-            // Lógica de traducción (Mantenida y Actualizada)
+            // Lógica de traducción
             const translations = {
                 es: { 
-                    nav_philosophy: 'Filosofía', nav_leadership_section: 'Liderazgo', nav_experiences: 'Experiencias', nav_contact: 'Contacto', nav_talk: 'Hablemos',
+                    nav_philosophy: 'Filosofía', nav_leadership_section: 'Liderazgo', nav_experiences: 'Experiencias', nav_contact: 'Contacto',
                     hero_subtitle: 'Liderando equipos que diseñan lo extraordinario. Mi pasión es transformar el profundo conocimiento de Costa Rica en experiencias que marcan una vida.',
                     philosophy_tag: 'MI FILOSOFÍA', philosophy_title: 'El Liderazgo como un Acto Creativo', 
                     philosophy_p1: 'Mi visión del turismo trasciende la transacción. Para mí, cada itinerario es una narrativa, cada cliente un protagonista y cada destino un acto por descubrir. Mi carrera ha sido una búsqueda incesante de la perfección en este arte: la habilidad de tejer logística, emoción y exclusividad en un tapiz de momentos imborrables. No se trata de qué ver, sino de cómo sentir.', 
@@ -563,7 +595,7 @@
                     footer_connect: 'Conectemos', footer_text: '&copy; 2025 Henry Rodríguez. Diseñado por Appex Arquitecto Digital.'
                 },
                 en: {
-                    nav_philosophy: 'Philosophy', nav_leadership_section: 'Leadership', nav_experiences: 'Experiences', nav_contact: 'Contact', nav_talk: 'Let\'s Talk',
+                    nav_philosophy: 'Philosophy', nav_leadership_section: 'Leadership', nav_experiences: 'Experiences', nav_contact: 'Contact',
                     hero_subtitle: 'Leading teams that design the extraordinary. My passion is to transform a deep knowledge of Costa Rica into life-changing experiences.',
                     philosophy_tag: 'MY PHILOSOPHY', philosophy_title: 'Leadership as a Creative Act',
                     philosophy_p1: 'My vision of tourism transcends transactions. For me, every itinerary is a narrative, every client a protagonist, and every destination an act to be discovered. My career has been a relentless pursuit of perfection in this art: the ability to weave logistics, emotion, and exclusivity into a tapestry of unforgettable moments. It\'s not about what to see, but how to feel.',
@@ -617,4 +649,5 @@
     </script>
 </body>
 </html>
+
 
